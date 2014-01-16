@@ -95,13 +95,11 @@ case $TERM in
 esac
 
 # Evan's prompt:
-# <user>@<host> u:<users> j:<jobs> [git prompt] <working directory>
-# <history number> [$|#] 
 
 _git_branch() {
 	ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-	git diff --quiet 2>/dev/null >&2 && dirty="" || dirty="*"
-	echo "(${ref#refs/heads/}${dirty})"
+	git diff --quiet 2>/dev/null >&2 && dirty="" || dirty="●"
+	echo "git:${ref#refs/heads/}${dirty}"
 }
 
 _num_users() {
@@ -112,9 +110,9 @@ _num_jobs() {
 	jobs -s | wc -l | tr -d ' '
 }
 
-[ ${EUID} -eq 0 ] && user_colour="${LIGHTRED}" || user_colour="${LIGHTGREEN}"
+[ ${EUID} -eq 0 ] && user_colour="${RED}" || user_colour="${BLUE}"
 
-PROMPT1="${user_colour}\u@\h ${LIGHTCYAN}u:\$(_num_users) j:\$(_num_jobs) \$(_git_branch) ${LIGHTBLUE}\w${NC} (\D{%H:%M:%S %m.%d})"
+PROMPT1="${user_colour}\u@\h ${BLUE}\w${NC} — u:\$(_num_users) j:\$(_num_jobs) \$(_git_branch) (\D{%H:%M:%S %m.%d})${NC}"
 export PS1="\n${PROMPT1}\n#\! ❯❯❯ "
 
 # use the bash-completion package if we have it
