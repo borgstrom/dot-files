@@ -38,6 +38,8 @@ SSH
 My ``.ssh/rc`` file puts our SSH auth sock from the agent forwarding into a
 predictable location so that screen can re-use our agent authentication.
 
+Link it into your ``.ssh`` dir.
+
 Screen
 ------
 My screen config sets up a hardstatus and points to a specific SSH auth sock
