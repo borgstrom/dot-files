@@ -1,0 +1,21 @@
+# evan's screenrc
+# $Id: .screenrc 4 2009-09-04 02:37:25Z evan $
+
+# we don't need to see the startup message
+startup_message off
+
+# no visual bell, i can hear the beep
+vbell off
+
+# detach the screen if it receives a hangup
+autodetach on
+
+# setup our hardstatus
+hardstatus alwayslastline "%{= bW}%-Lw%{= gW}%50> %n%f* %t %{-}%+Lw%< %= %{= bW} %H %{= bW} %0c %d/%m %{= gW} %l %{-}"
+
+# setup screen to use the correct SSH auth sock
+# see also: .ssh/rc
+setenv SSH_AUTH_SOCK $HOME/.ssh/ssh_auth_sock
+
+# Make xterm scrolling work properly with screen.
+termcapinfo xterm-256color|xterm-color|xterm|xterms|xs|rxvt ti@:te@
