@@ -3,6 +3,7 @@
 These are my_ dot-files. I check them out and symlink them into place.
 
 * OS X work station
+* UNIX servers
 * Bash shell
 * vim + MacVim for editing
 * Write lots of Python
@@ -38,7 +39,8 @@ SSH
 My ``.ssh/rc`` file puts our SSH auth sock from the agent forwarding into a
 predictable location so that screen can re-use our agent authentication.
 
-Link it into your ``.ssh`` dir.
+Link it into your ``.ssh`` dir. This only needs to be done on machines that
+you ssh *into*, it doesn't need to be done on your workstation.
 
 Screen
 ------
