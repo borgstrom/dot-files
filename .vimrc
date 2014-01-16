@@ -2,9 +2,9 @@
 " depending on if we're in a GUI or not
 let g:pathogen_disabled = []
 
-if !has('gui_running')
-	call add(g:pathogen_disabled, 'nerdtree')
-	call add(g:pathogen_disabled, 'YouCompleteMe')
+if has('gui_running')
+	" Show NERDTree on startup
+	let g:nerdtree_tabs_open_on_console_startup=1
 endif
 
 " Let pathogen manage our plugins
@@ -12,9 +12,6 @@ execute pathogen#infect()
 
 " bump our gui font
 set guifont=Monaco:h13
-
-" Show NERDTree on startup
-let g:nerdtree_tabs_open_on_console_startup=1
 
 " Dark Solarized
 set background=dark
