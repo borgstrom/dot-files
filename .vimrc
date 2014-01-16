@@ -5,6 +5,9 @@ let g:pathogen_disabled = []
 if has('gui_running')
 	" Show NERDTree on startup
 	let g:nerdtree_tabs_open_on_console_startup=1
+
+	" Show line numbers, since copy & paste doesn't grab them
+	set number
 endif
 
 " Let pathogen manage our plugins
@@ -21,13 +24,9 @@ filetype plugin on
 filetype indent on
 syntax enable
 set ai
-set number
 
 set statusline=%<%f\ %h%m%r%=%{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\"]\ \"}%k\ %-14.(%l,%c%V%)\ %P
 set laststatus=2
-
-if has('gui_running')
-endif
 
 set modeline modelines=2
 
