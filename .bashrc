@@ -114,8 +114,8 @@ _num_jobs() {
 
 [ ${EUID} -eq 0 ] && user_colour="${LIGHTRED}" || user_colour="${LIGHTGREEN}"
 
-PROMPT1="${user_colour}\u@\h ${LIGHTCYAN}u:\$(_num_users) j:\$(_num_jobs) \$(_git_branch) ${LIGHTBLUE}\w${NC}"
-export PS1="\n${PROMPT1}\n[#\!]: "
+PROMPT1="${user_colour}\u@\h ${LIGHTCYAN}u:\$(_num_users) j:\$(_num_jobs) \$(_git_branch) ${LIGHTBLUE}\w${NC} (\D{%H:%M:%S %m.%d})"
+export PS1="\n${PROMPT1}\n#\! ❯❯❯ "
 
 # use the bash-completion package if we have it
 [ -f /etc/profile.d/bash-completion ] && source /etc/profile.d/bash-completion
