@@ -1,11 +1,6 @@
 # return on non-interactive shells - don't put anything that might produce output above here...
 [[ $- != *i* ]] && return
 
-#
-# Evan Borgstrom's .bashrc file
-# Last updated: 2012-03-06
-#
-
 # page with less
 [ -x $(which less) ] && export PAGER=less || echo "WARNING: more sucks, install less"
 
@@ -14,9 +9,8 @@
 	[ -x $(which vi) ] && export EDITOR=vi || echo "WARNING: couldn't find vi or vim"
 }
 
-# a nice liberal path that covers pretty much
-# all of my machines and their sometimes goofy
-# directory layout in $HOME
+# a nice liberal path that covers pretty much all of my machines and their
+# sometimes goofy directory layout in $HOME
 export PATH="$HOME/bin:$HOME/local/bin:$HOME/local/sbin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin/:/usr/java/bin"
 
 # shell options
@@ -57,13 +51,7 @@ if [ ${term_colour} -eq 1 ]; then
         RED='\[\e[0;31m\]'
         PURPLE='\[\e[0;35m\]'
         BROWN='\[\e[0;33m\]'
-        LIGHTGRAY='\[\e[0;37m\]'
         DARKGRAY='\[\e[1;30m\]'
-        LIGHTBLUE='\[\e[1;34m\]'
-        LIGHTGREEN='\[\e[1;32m\]'
-        LIGHTCYAN='\[\e[1;36m\]'
-        LIGHTRED='\[\e[1;31m\]'
-        LIGHTPURPLE='\[\e[1;35m\]'
         YELLOW='\[\e[1;33m\]'
         WHITE='\[\e[1;37m\]'
         NC='\[\e[m\]'
@@ -95,6 +83,7 @@ case $TERM in
 esac
 
 # Evan's prompt:
+# user@host /working/path - u:users j:jobs [git:branch] (timestamp)
 
 _git_branch() {
 	ref=$(git symbolic-ref HEAD 2> /dev/null) || return
@@ -150,12 +139,6 @@ alias gpre='grep'
 alias whcih='which'
 alias snv='svn'
 alias poweroff='echo "Please run /sbin/poweroff to turn off the system"'
-
-# helpers
-alias puprun='puppet agent --verbose --no-daemonize --onetime'
-alias pupdev='puppet agent --verbose --no-daemonize --onetime --environment="dev" --no-usecacheonfailure'
-
-# python
 
 # only run pip with virtualenv and use the active env
 export PIP_REQUIRE_VIRTUALENV=true
