@@ -13,9 +13,9 @@ for ent in .bashrc .screenrc .vim .vimrc; do
 		fi
 	fi
 
-	ln -s $DOTFILES/$ent ~/$ent
+	ln -sf $DOTFILES/$ent ~/$ent
 done
 
 # special case .ssh/rc
 [ ! -d ~/.ssh ] && mkdir ~/.ssh && chmod 0700 ~/.ssh
-ln -s $DOTFILES/.ssh/rc ~/.ssh/rc
+ln -sf $DOTFILES/.ssh/rc ~/.ssh/rc
