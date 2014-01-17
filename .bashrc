@@ -176,9 +176,6 @@ fi
 # clean up
 /bin/rm -f /tmp/.login.${USER}.$$.*
 
-# see if we have the fink init.sh (ie; we're on a mac)
-test -r /sw/bin/init.sh && . /sw/bin/init.sh
-
 # see if we have a custom set of init actions to include
 test -r ~/.bash_custom && . ~/.bash_custom
 
@@ -192,32 +189,6 @@ tail64n() {
 }
 
 randompass() {
-	words=/usr/share/dict/words
-	if [ ! -f $words ]; then
-		echo "$words doesn't exist. Sorry..."
-		return
-	fi
-
-	numlines=`wc -l $words | awk '{print $1}'`
-	numwords=0
-
-	JOINERS="!.:*^@%&"
-	joiner=${JOINERS:$(($RANDOM % ${#JOINERS})):1}
-	password=""
-
-	while [ $numwords -lt 3 ]; do
-		linenum=$(($RANDOM % $numlines + 1))
-
-		word=`sed -n ${linenum}p $words | perl -e "print ucfirst(<>);"`
-		[ ! -z "$password" ] && password="${password}${joiner}${word}" || password=$word
-
-		numwords=$(($numwords + 1))
-	done
-
-	echo $password
-}
-
-old_randompass() {
         MATRIX="HpZld&xsG47f0)W^9gNa!)LR(TQjh&UwnvP(tD5eAzr6k@E&y(umB3^@!K^cbOCV)SFJoYi2q@MIX8!1"
         PASS=""
         n=1
@@ -235,25 +206,3 @@ old_randompass() {
                 i=$(($i + 1))
         done
 }
-
-fbpasswd() {
-        perl -I/opt/fatbox/lib -MFatBox::Password -e "print FatBox::Password->generate($1) . \"\n\";"
-}
-
-pyactivate() {
-        [ -z "$PYTHONENV" ] && PYTHONENV="${HOME}/python-envs"
-        ACTFILE="${PYTHONENV}/$1/bin/activate"
-        if [ ! -f "$ACTFILE" ]; then
-                echo "No such environment in ${PYTHONENV} (${ACTFILE})"
-        else
-                source $ACTFILE
-        fi
-}
-
-commit() {
-        git=/usr/bin/git
-        $git diff $* > /tmp/.git.commit
-        EDITOR='vim -c "vsp /tmp/.git.commit"' git commit $*
-}
-
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
