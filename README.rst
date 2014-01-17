@@ -21,7 +21,7 @@ Link the ``.bashrc`` file into your home dir.
 Prompt
 ~~~~~~
 
-.. Prompt:: http://i.imgur.com/jfYidAv.png
+.. image:: http://i.imgur.com/jfYidAv.png
 
 VIM
 ---
