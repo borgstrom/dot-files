@@ -18,6 +18,11 @@ experience in the shell.
 
 Link the ``.bashrc`` file into your home dir.
 
+Prompt
+~~~~~~
+
+.. Prompt:: http://i.imgur.com/jfYidAv.png
+
 VIM
 ---
 Don't use VIM? Too bad for you. It's the best editing experience and you're
