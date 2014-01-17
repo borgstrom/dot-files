@@ -51,6 +51,7 @@ if [ ${term_colour} -eq 1 ]; then
         RED='\[\e[0;31m\]'
         PURPLE='\[\e[0;35m\]'
         BROWN='\[\e[0;33m\]'
+        LIGHTGRAY='\[\e[0;37m\]'
         DARKGRAY='\[\e[1;30m\]'
         YELLOW='\[\e[1;33m\]'
         WHITE='\[\e[1;37m\]'
@@ -99,10 +100,10 @@ _num_jobs() {
 	jobs -s | wc -l | tr -d ' '
 }
 
-[ ${EUID} -eq 0 ] && user_colour="${RED}" || user_colour="${BLUE}"
+[ ${EUID} -eq 0 ] && user_colour="${RED}" || user_colour="${LIGHTGRAY}"
 
-PROMPT1="${user_colour}\u@\h ${BLUE}\w${NC} — u:\$(_num_users) j:\$(_num_jobs) \$(_git_branch) (\D{%H:%M:%S %m.%d})${NC}"
-export PS1="\n${PROMPT1}\n#\! ❯❯❯ "
+PROMPT1="${user_colour}\u${LIGHTGRAY}@\h ${BLUE}\w${NC} — u:\$(_num_users) j:\$(_num_jobs) \$(_git_branch) (\D{%H:%M:%S %m.%d})"
+export PS1="\n${PROMPT1}\n#\! ${user_colour}❯❯❯${NC} "
 
 # use the bash-completion package if we have it
 [ -f /etc/profile.d/bash-completion ] && source /etc/profile.d/bash-completion
