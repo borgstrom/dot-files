@@ -86,7 +86,7 @@ esac
 # Evan's prompt:
 # user@host /working/path - u:users j:jobs [git:branch] (timestamp)
 
-_git_branch() {
+_ps1_git_branch() {
 	ref=$(git symbolic-ref HEAD 2> /dev/null) || return
 	git diff --quiet 2>/dev/null >&2 && dirty="" || dirty="●"
 	echo "git:${ref#refs/heads/}${dirty}"
@@ -102,7 +102,7 @@ _num_jobs() {
 
 [ ${EUID} -eq 0 ] && user_colour="${LIGHTRED}" || user_colour="${LIGHTGRAY}"
 
-PROMPT1="${user_colour}\u@\h ${BLUE}\w${NC} — u:\$(_num_users) j:\$(_num_jobs) \$(_git_branch) (\D{%H:%M:%S %m.%d})"
+PROMPT1="${user_colour}\u@\h ${BLUE}\w${NC} — u:\$(_num_users) j:\$(_num_jobs) \$(_ps1_git_branch) (\D{%H:%M:%S %m.%d})"
 export PS1="\n${PROMPT1}\n#\! ${user_colour}❯❯❯${NC} "
 
 # use the bash-completion package if we have it
