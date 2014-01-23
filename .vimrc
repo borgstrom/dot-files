@@ -30,6 +30,12 @@ set laststatus=2
 
 set modeline modelines=2
 
+" use longer flake8 line lengths
+let g:flake8_max_line_length=99
+
+" when saving .py files call Flake8
+autocmd BufWritePost *.py call Flake8()
+
 autocmd BufRead,BufNewFile *.pp set ft=puppet
 autocmd BufRead,BufNewFile *.c set ts=4 sw=4 et sts=4
 autocmd BufRead,BufNewFile *.h set ts=4 sw=4 et sts=4
