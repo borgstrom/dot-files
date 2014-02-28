@@ -13,12 +13,6 @@
 # a nice liberal path
 export PATH="$HOME/bin:$HOME/local/bin:$HOME/local/sbin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin"
 
-# my prompt
-# http://i.imgur.com/jfYidAv.png
-[ ${EUID} -eq 0 ] && user_colour="${LIGHTRED}" || user_colour="${LIGHTGRAY}"
-PROMPT1="${user_colour}\u@\h ${BLUE}\w${NC} — u:\$(num_users) j:\$(num_jobs)\$(ps1_git_branch) (\D{%H:%M:%S %m.%d})"
-export PS1="\n${PROMPT1}\n#\! ${user_colour}❯❯❯${NC} "
-
 # our dotfiles config
 export DOTFILES=$(cd $(dirname $(readlink ~/.bashrc)) ; pwd -P)
 export DOTFILES_REMOTE="https://github.com/borgstrom/dot-files.git"
@@ -128,11 +122,16 @@ login-info() {
 
 check-dot-files() {
 	local CACHE_FILE=/tmp/.check-dot-files.${USER}
-	local TIMESTAMP=$(test -f $CACHE_FILE && stat -c %Y $CACHE_FILE || echo 0)
+	local TIMESTAMP=0
+	if [ -f $CACHE_FILE ]; then
+		eval $(stat -s $CACHE_FILE)
+		TIMESTAMP=$st_mtime
+	fi
+
 	local NOW=$(date +%s)
 	local DIFF=$(($NOW - $TIMESTAMP))
 
-	# only update once every check interval
+	# only update the remote cache once every check interval
 	if [ $DIFF -gt $DOTFILES_CHECK_INTERVAL ]; then
 		echo $(git ls-remote $DOTFILES_REMOTE $DOTFILES_REF | awk '{print $1}') > $CACHE_FILE
 	fi
@@ -231,6 +230,12 @@ case $TERM in
                 PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\033\\"'
                 ;;
 esac
+
+# my prompt
+# http://i.imgur.com/jfYidAv.png
+[ ${EUID} -eq 0 ] && user_colour="${LIGHTRED}" || user_colour="${LIGHTGRAY}"
+PROMPT1="${user_colour}\u@\h ${BLUE}\w${NC} — u:\$(num_users) j:\$(num_jobs)\$(ps1_git_branch) (\D{%H:%M:%S %m.%d})"
+export PS1="\n${PROMPT1}\n#\! ${user_colour}❯❯❯${NC} "
 
 # use the bash-completion package if we have it
 [ -f /etc/profile.d/bash-completion ] && source /etc/profile.d/bash-completion
