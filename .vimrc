@@ -3,6 +3,9 @@
 let g:pathogen_disabled = []
 
 if has('gui_running')
+	" bump our gui font
+	set guifont=Ubuntu\ Mono\ 13,Monaco:h13
+
 	" Show NERDTree on startup
 	let g:nerdtree_tabs_open_on_console_startup=1
 
@@ -12,9 +15,6 @@ endif
 
 " Let pathogen manage our plugins
 execute pathogen#infect()
-
-" bump our gui font
-set guifont=Monaco:h13
 
 " Dark Solarized
 set background=dark
