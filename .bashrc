@@ -65,12 +65,13 @@ num_jobs() {
 
 
 login-info() {
+	local loadavg=''
 	if [ ! -r /proc/loadavg ]; then
-		echo "Cannot read load average, skipping login info..."
-		return
+		loadavg=$(uptime | awk -F'[a-z]:' '{print $2}' | awk -F' ' '{print $1}')
+	else
+		loadavg=$(awk '{print $2}' /proc/loadavg)
 	fi
 
-	local loadavg=$(awk '{print $2}' /proc/loadavg)
 	if [ $(echo "${loadavg}>2" | bc -l) -eq 1 ]; then
 		echo "Load average is above 2.0, skipping login info..."
 		return
