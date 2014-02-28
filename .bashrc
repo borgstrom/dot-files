@@ -1,6 +1,158 @@
 # return on non-interactive shells - don't put anything that might produce output above here...
 [[ $- != *i* ]] && return
 
+###
+### Evan Borgstrom's .bashrc file
+### Latest at https://github.com/borgstrom/dot-files
+###
+
+###
+### Global Configuration
+###
+
+# a nice liberal path
+export PATH="$HOME/bin:$HOME/local/bin:$HOME/local/sbin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin"
+
+# my prompt
+# http://i.imgur.com/jfYidAv.png
+[ ${EUID} -eq 0 ] && user_colour="${LIGHTRED}" || user_colour="${LIGHTGRAY}"
+PROMPT1="${user_colour}\u@\h ${BLUE}\w${NC} — u:\$(num_users) j:\$(num_jobs)\$(ps1_git_branch) (\D{%H:%M:%S %m.%d})"
+export PS1="\n${PROMPT1}\n#\! ${user_colour}❯❯❯${NC} "
+
+# our dotfiles config
+export DOTFILES=$(cd $(dirname $(readlink ~/.bashrc)) ; pwd -P)
+export DOTFILES_REMOTE="https://github.com/borgstrom/dot-files.git"
+export DOTFILES_REF="heads/master"
+export DOTFILES_CHECK_INTERVAL=43200 # 12 hours
+
+###
+### Custom Functions
+###
+randompass() {
+        local MATRIX="HpZld&xsG47f0)W^9gNa!)LR(TQjh&UwnvP(tD5eAzr6k@E&y(umB3^@!K^cbOCV)SFJoYi2q@MIX8!1"
+        local PASS=""
+        local n=1
+        local i=1
+	local length=8
+	local num=1
+        [ -z "$1" ] || length=$1
+        [ -z "$2" ] || num=$2
+        while [ ${i} -le $num ]; do
+                while [ ${n} -le $length ]; do
+                        PASS="$PASS${MATRIX:$(($RANDOM%${#MATRIX})):1}"
+                        n=$(($n + 1))
+                done
+                echo $PASS
+                n=1
+                PASS=""
+                i=$(($i + 1))
+        done
+}
+
+ps1_git_branch() {
+	ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+	git diff --quiet 2>/dev/null >&2 && dirty="" || dirty="●"
+	echo " git:${ref#refs/heads/}${dirty}"
+}
+
+num_users() {
+	who | wc -l | tr -d ' '
+}
+
+num_jobs() {
+	jobs -s | wc -l | tr -d ' '
+}
+
+
+login-info() {
+	if [ ! -r /proc/loadavg ]; then
+		echo "Cannot read load average, skipping login info..."
+		return
+	fi
+
+	local loadavg=$(awk '{print $2}' /proc/loadavg)
+	if [ $(echo "${loadavg}>2" | bc -l) -eq 1 ]; then
+		echo "Load average is above 2.0, skipping login info..."
+		return
+	fi
+
+	# these arrays hold our login info items
+	# the index of the names array matches the index of the output array
+	local command_names
+	local command_output
+
+	command_names[0]="disks > 90%"
+	command_output[0]=$(df -lk 2>/dev/null | grep -v '^Filesystem' | awk '{ if ($5 > 90) { print $0 } }')
+
+	command_names[1]="zombies"
+	command_output[1]=$(ps aux | grep ' Z. ' | grep -v grep)
+
+	command_names[2]="dotfiles"
+	command_output[2]=$(check-dot-files)
+
+	# output it all
+	echo ""
+	echo -e "${USER} login to ${HOSTNAME} - $(date)"
+	uptime
+	echo ""
+
+	# i is our loop iteration
+	local i=0
+
+	# l is the length of dashes needed to make a flush 80.
+	# dashes & fulldashes are strings used in output
+	local l=0
+	local dashes=""
+	local fulldashes=$(printf "%80s" | tr ' ' '-')
+
+	# loop through our login_info items
+	while [ $i -lt ${#command_names[@]} ]; do
+		# only show commands with output
+		if [ ! -z "${command_output[$i]}" ]; then
+			# build the amount of dashes needed to make a flush 80
+			l=$((80 - 7 - ${#command_names[$i]}))
+			dashes=$(printf "%${l}s" | tr ' ' '-')
+			echo "---( ${command_names[$i]} )$dashes"
+
+			# show our output, use printf so that our newlines are shown
+			printf "${command_output[$i]}\n"
+
+			echo $fulldashes
+		fi
+
+		# next
+		i=$(($i + 1))
+	done
+}
+
+check-dot-files() {
+	local CACHE_FILE=/tmp/.check-dot-files.${USER}
+	local TIMESTAMP=$(test -f $CACHE_FILE && stat -c %Y $CACHE_FILE || echo 0)
+	local NOW=$(date +%s)
+	local DIFF=$(($NOW - $TIMESTAMP))
+
+	# only update once every check interval
+	if [ $DIFF -gt $DOTFILES_CHECK_INTERVAL ]; then
+		echo $(git ls-remote $DOTFILES_REMOTE $DOTFILES_REF | awk '{print $1}') > $CACHE_FILE
+	fi
+
+	local REMOTE_SHA1=$(<$CACHE_FILE)
+	local LOCAL_SHA1=$(GIT_DIR=$DOTFILES/.git git show-ref $DOTFILES_REF | awk '{print $1}')
+
+	if [ "$REMOTE_SHA1" != "$LOCAL_SHA1" ]; then
+		echo "Your dot-files are out of date!"
+		echo "To update them run: update-dot-files"
+	fi
+}
+
+update-dot-files() {
+	GIT_DIR=$DOTFILES git pull origin
+}
+
+###
+### Shell customization
+###
+
 # page with less
 [ -x $(which less) ] && export PAGER=less || echo "WARNING: more sucks, install less"
 
@@ -8,10 +160,6 @@
 [ -x $(which vim) ] && export EDITOR=vim || {
 	[ -x $(which vi) ] && export EDITOR=vi || echo "WARNING: couldn't find vi or vim"
 }
-
-# a nice liberal path that covers pretty much all of my machines and their
-# sometimes goofy directory layout in $HOME
-export PATH="$HOME/bin:$HOME/local/bin:$HOME/local/sbin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin/:/usr/java/bin"
 
 # shell options
 shopt -s cdspell        # correct minor spelling mistakes in directory names for cd
@@ -83,28 +231,6 @@ case $TERM in
                 ;;
 esac
 
-# Evan's prompt:
-# user@host /working/path - u:users j:jobs [git:branch] (timestamp)
-
-_ps1_git_branch() {
-	ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-	git diff --quiet 2>/dev/null >&2 && dirty="" || dirty="●"
-	echo "git:${ref#refs/heads/}${dirty}"
-}
-
-_num_users() {
-	who | wc -l | tr -d ' '
-}
-
-_num_jobs() {
-	jobs -s | wc -l | tr -d ' '
-}
-
-[ ${EUID} -eq 0 ] && user_colour="${LIGHTRED}" || user_colour="${LIGHTGRAY}"
-
-PROMPT1="${user_colour}\u@\h ${BLUE}\w${NC} — u:\$(_num_users) j:\$(_num_jobs) \$(_ps1_git_branch) (\D{%H:%M:%S %m.%d})"
-export PS1="\n${PROMPT1}\n#\! ${user_colour}❯❯❯${NC} "
-
 # use the bash-completion package if we have it
 [ -f /etc/profile.d/bash-completion ] && source /etc/profile.d/bash-completion
 [ -f /etc/bash_completion ] && source /etc/bash_completion
@@ -145,64 +271,8 @@ alias poweroff='echo "Please run /sbin/poweroff to turn off the system"'
 export PIP_REQUIRE_VIRTUALENV=true
 export PIP_RESPECT_VIRTUALENV=true
 
-# lastly run some simple checks and output some info
-disk_usage_file="/tmp/.login.${USER}.$$.diskusage"
-zombies_file="/tmp/.login.${USER}.$$.zombies"
-
-# check if there are any partitions > 90% used
-df -lk | grep -v "^Filesystem" | awk '{ if ($5 > 90) { print $0 } }' > ${disk_usage_file}
-
-# check if there are any zombie processes
-ps aux | grep " Z. " | grep -v grep > ${zombies_file}
-
-# output it all
-echo ""
-echo -e "${USER} login to `hostname` - `date`"
-uptime
-echo ""
-
-if [ -s ${disk_usage_file} ]; then
-        echo "---( disks >90% )------------------------------------------------------"
-        cat ${disk_usage_file}
-        echo "-----------------------------------------------------------------------"
-fi
-
-if [ -s ${zombies_file} ]; then
-        echo "---( zombies )---------------------------------------------------------"
-        cat ${zombies_file}
-        echo "-----------------------------------------------------------------------"
-fi
-
-# clean up
-/bin/rm -f /tmp/.login.${USER}.$$.*
-
 # see if we have a custom set of init actions to include
 test -r ~/.bash_custom && . ~/.bash_custom
 
-####
-#### custom functions below here
-####
-tail64n() {
-        [ ! -x "/usr/bin/tai64nlocal" ] && echo "tai64nlocal not installed, please install daemontools..." && return
-        [ ! -f "$1" ] && echo "Usage: tail64n <file>" && return
-        /usr/bin/tail -f $1 | /usr/bin/tai64nlocal
-}
-
-randompass() {
-        MATRIX="HpZld&xsG47f0)W^9gNa!)LR(TQjh&UwnvP(tD5eAzr6k@E&y(umB3^@!K^cbOCV)SFJoYi2q@MIX8!1"
-        PASS=""
-        n=1
-        i=1
-        [ -z "$1" ] && length=8 || length=$1
-        [ -z "$2" ] && num=1 || num=$2
-        while [ ${i} -le $num ]; do
-                while [ ${n} -le $length ]; do
-                        PASS="$PASS${MATRIX:$(($RANDOM%${#MATRIX})):1}"
-                        n=$(($n + 1))
-                done
-                echo $PASS
-                n=1
-                PASS=""
-                i=$(($i + 1))
-        done
-}
+# login info
+login-info
