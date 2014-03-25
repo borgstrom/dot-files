@@ -233,7 +233,7 @@ esac
 
 # my prompt
 # http://i.imgur.com/jfYidAv.png
-[ ${EUID} -eq 0 ] && user_colour="${LIGHTRED}" || user_colour="${LIGHTGRAY}"
+[ ${EUID} -eq 0 ] && user_colour="${RED}" || user_colour="${LIGHTGRAY}"
 PROMPT1="${user_colour}\u@\h ${BLUE}\w${NC} — u:\$(num_users) j:\$(num_jobs)\$(ps1_git_branch) (\D{%H:%M:%S %m.%d})"
 export PS1="\n${PROMPT1}\n#\! ${user_colour}❯❯❯${NC} "
 
