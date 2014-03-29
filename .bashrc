@@ -149,6 +149,44 @@ update-dot-files() {
 	GIT_DIR=$DOTFILES git pull origin
 }
 
+osx-ssh-agent-timeout() {
+	# on os x we want ssh-agent to timeout our keys once an hour
+	# this gives us a nice balance of security and convenience
+	PLIST="/System/Library/LaunchAgents/org.openbsd.ssh-agent.plist"
+	LOCK="/tmp/.osx-ssh-agent-timeout-check"
+	SKIP="~/.osx-ssh-agent-timeout-skip"
+
+	# if our plist doesn't exist, or our lock or skip does exist return
+	[ ! -f "$PLIST" ] || [ -f "$LOCK" ] || [ -f "$SKIP" ] && return
+
+	ARGS=`defaults read $PLIST ProgramArguments`
+	if [ -z "`echo $ARGS | grep -- '-t'`" ]; then
+		echo ""
+		echo "*** OS X - SSH AGENT TIMEOUT ***"
+		echo
+		echo "Your machine is set to run ssh-agent without a timeout."
+		echo "Let's edit the ssh-agent launchctl plist file to add a"
+		echo "timeout of one hour."
+		echo
+		echo "You will now be prompted for your password since sudo"
+		echo "needs to be used to update this setting."
+		echo
+		echo "If you don't want to do this just hit CTRL+C when prompted"
+		echo "for your password, and then run:"
+		echo "touch $SKIP"
+		echo
+
+		sudo defaults write $PLIST ProgramArguments '("/usr/bin/ssh-agent", "-l", "-t", "3600")'
+
+		# os x oddity; by default we're able to read the file without
+		# being root but as soon as we write to the file we need to
+		# change the mode because it sets 0600
+		sudo chmod 0644 $PLIST
+	fi
+
+	touch $LOCK
+}
+
 ###
 ### Shell customization
 ###
@@ -282,3 +320,6 @@ test -r ~/.bash_custom && . ~/.bash_custom
 
 # login info
 login-info
+
+# os x ssh agent check
+osx-ssh-agent-timeout
