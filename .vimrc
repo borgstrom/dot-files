@@ -39,7 +39,8 @@ autocmd BufRead,BufNewFile *.h set ts=4 sw=4 et sts=4
 autocmd BufRead,BufNewFile *.m set ts=4 sw=4 et sts=4
 autocmd BufRead,BufNewFile *.py set ts=4 sw=4 et sts=4
 autocmd BufRead,BufNewFile *.js set ts=4 sw=4 et sts=4
-autocmd BufRead,BufNewFile *.css set ts=4 sw=4 et sts=4
+autocmd BufRead,BufNewFile *.css set ts=2 sw=2 et sts=2
+autocmd BufRead,BufNewFile *.scss set ts=2 sw=2 et sts=2
 autocmd BufRead,BufNewFile *.less set ts=4 sw=4 et sts=4
 autocmd BufRead,BufNewFile *.html set ts=4 sw=4 et sts=4
 autocmd BufRead,BufNewFile *.tpl set ts=4 sw=4 et sts=4 ai
