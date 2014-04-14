@@ -30,9 +30,6 @@ set laststatus=2
 
 set modeline modelines=2
 
-" when saving .py files call Flake8
-autocmd BufWritePost *.py call Flake8()
-
 autocmd BufRead,BufNewFile *.pp set ft=puppet
 autocmd BufRead,BufNewFile *.c set ts=4 sw=4 et sts=4
 autocmd BufRead,BufNewFile *.h set ts=4 sw=4 et sts=4
@@ -46,3 +43,7 @@ autocmd BufRead,BufNewFile *.html set ts=4 sw=4 et sts=4
 autocmd BufRead,BufNewFile *.tpl set ts=4 sw=4 et sts=4 ai
 autocmd BufRead,BufNewFile *.xml set ts=4 sw=4 et sts=4 ai
 autocmd BufRead,BufNewFile *.rb set ts=2 sw=2 et sts=2 ai
+
+if filereadable('.vimrc.local')
+	source .vimrc.local
+endif
