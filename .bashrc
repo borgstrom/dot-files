@@ -147,6 +147,7 @@ check-dot-files() {
 
 update-dot-files() {
 	GIT_DIR=$DOTFILES/.git git pull origin
+	rm -f /tmp/.check-dot-files.${USER}
 }
 
 osx-ssh-agent-timeout() {
