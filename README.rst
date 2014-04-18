@@ -52,7 +52,7 @@ Screen
 My screen config sets up a hardstatus and points to a specific SSH auth sock
 for agent forwarding.
 
-.. _my: https://github.com/borgstrom/
+.. _my: http://borgstrom.ca/
 .. _my fork of prezto: https://github.com/borgstrom/prezto
 .. _Pathogen: https://github.com/tpope/vim-pathogen
 .. _solarized terminal: https://github.com/tomislav/osx-terminal.app-colors-solarized
