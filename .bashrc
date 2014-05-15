@@ -124,7 +124,12 @@ check-dot-files() {
 	local CACHE_FILE=/tmp/.check-dot-files.${USER}
 	local TIMESTAMP=0
 	if [ -f $CACHE_FILE ]; then
-		TIMESTAMP=$(stat -c %Y $CACHE_FILE)
+		if [ "$(uname)" == "Darwin" ]; then
+			eval $(stat -s $CACHE_FILE)
+			TIMESTAMP=$st_mtime
+		else
+			TIMESTAMP=$(stat -c %Y $CACHE_FILE)
+		fi
 	fi
 
 	local NOW=$(date +%s)
