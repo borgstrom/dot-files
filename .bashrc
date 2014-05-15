@@ -145,7 +145,10 @@ check-dot-files() {
 }
 
 update-dot-files() {
-	GIT_DIR=$DOTFILES/.git git pull origin
+	OWD=$(pwd)
+	cd $DOTFILES
+	git pull origin
+	cd $OWD
 	rm -f /tmp/.check-dot-files.${USER}
 }
 
