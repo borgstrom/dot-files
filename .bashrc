@@ -331,3 +331,8 @@ login-info
 
 # os x ssh agent check
 osx-ssh-agent-timeout
+
+# pull in global profile
+if [ -f /etc/profile ]; then
+	. /etc/profile
+fi
