@@ -10,8 +10,13 @@
 ### Global Configuration
 ###
 
-# a nice liberal path
-export PATH="$HOME/bin:$HOME/local/bin:$HOME/local/sbin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin"
+# pull in global profile
+if [ -f /etc/profile ]; then
+	. /etc/profile
+fi
+
+# a nice liberal path with our own local items first
+export PATH="$HOME/bin:$HOME/local/bin:$HOME/local/sbin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:$PATH"
 
 # our dotfiles config
 export DOTFILES=$(cd $(dirname $(readlink ~/.bashrc)) ; pwd -P)
@@ -332,7 +337,3 @@ login-info
 # os x ssh agent check
 osx-ssh-agent-timeout
 
-# pull in global profile
-if [ -f /etc/profile ]; then
-	. /etc/profile
-fi
