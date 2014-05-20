@@ -44,6 +44,13 @@ autocmd BufRead,BufNewFile *.tpl set ts=4 sw=4 et sts=4 ai
 autocmd BufRead,BufNewFile *.xml set ts=4 sw=4 et sts=4 ai
 autocmd BufRead,BufNewFile *.rb set ts=2 sw=2 et sts=2 ai
 
+
+" source our global vim overrides if they exist
+if filereadable(glob("~/.vimrc.local")) 
+	source ~/.vimrc.local
+endif
+
+" source our per-project overrides if they exist
 if filereadable('.vimrc.local')
 	source .vimrc.local
 endif
