@@ -157,7 +157,7 @@ check-dot-files() {
 update-dot-files() {
 	OWD=$(pwd)
 	cd $DOTFILES
-	git pull origin
+	git pull --recurse-submodules origin
 	cd $OWD
 	rm -f /tmp/.check-dot-files.${USER}
 }
