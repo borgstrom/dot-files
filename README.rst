@@ -7,7 +7,7 @@ These are my_ dot-files. I check them out and symlink them into place.
 * Bash shell
 * vim + MacVim for editing
 * Write lots of Python
-* Use screen (I haven't had a compelling reason to switch to tmux yet)
+* tmux
 
 Bash
 ----
