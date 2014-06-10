@@ -275,10 +275,10 @@ fi
 # set window title
 case $TERM in
         xterm*|rxvt*|Eterm)
-                PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\007"'
+		export PROMPT_COMMAND='echo -ne "\033]2;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
                 ;;
-        screen)
-                PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\033\\"'
+        screen*)
+		export PROMPT_COMMAND='echo -ne "\033]2;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007\033k${USER}@${HOSTNAME}\033\\"'
                 ;;
 esac
 
