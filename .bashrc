@@ -19,10 +19,15 @@ fi
 export PATH="$HOME/bin:$HOME/local/bin:$HOME/local/sbin:$PATH:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin"
 
 # our dotfiles config
-export DOTFILES=$(cd $(dirname $(readlink ~/.bashrc)) ; pwd -P)
+if [ -h ~/.bashrc ]; then
+	export DOTFILES=$(cd $(dirname $(readlink ~/.bashrc)) ; pwd -P)
+else
+	export DOTFILES=""
+fi
 export DOTFILES_REMOTE="https://github.com/borgstrom/dot-files.git"
 export DOTFILES_REF="heads/master"
 export DOTFILES_CHECK_INTERVAL=43200 # 12 hours
+export GIT_EXECUTABLE=$(which git 2>/dev/null)
 
 ###
 ### Custom Functions
@@ -49,6 +54,7 @@ randompass() {
 }
 
 ps1_git_branch() {
+	[ -z "$GIT_EXECUTABLE" ] && return
 	ref=$(git symbolic-ref HEAD 2> /dev/null) || return
 	git diff --quiet 2>/dev/null >&2 && dirty="" || dirty="●"
 	echo " git:${ref#refs/heads/}${dirty}"
@@ -126,6 +132,7 @@ login-info() {
 }
 
 check-dot-files() {
+	[ -z $DOTFILES ] && return
 	local CACHE_FILE=/tmp/.check-dot-files.${USER}
 	local TIMESTAMP=0
 	if [ -f $CACHE_FILE ]; then
@@ -155,6 +162,7 @@ check-dot-files() {
 }
 
 update-dot-files() {
+	[ -z $DOTFILES ] && return
 	OWD=$(pwd)
 	cd $DOTFILES
 	git pull --recurse-submodules origin
