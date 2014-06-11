@@ -286,7 +286,10 @@ case $TERM in
 		export PROMPT_COMMAND='echo -ne "\033]2;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
                 ;;
         screen*)
-		export PROMPT_COMMAND='echo -ne "\033]2;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007\033k${HOSTNAME}\033\\"'
+		# when in tmux (screen) set the title of the current pane to our hostname by default
+		# to override it just 'export TITLE=Blah' in your shell
+		export TITLE=$HOSTNAME
+		export PROMPT_COMMAND='echo -ne "\033]2;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007\033k${TITLE}\033\\"'
                 ;;
 esac
 
