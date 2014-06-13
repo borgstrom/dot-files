@@ -4,14 +4,17 @@ let g:pathogen_disabled = []
 
 if has('gui_running')
 	" bump our gui font
-	set guifont=Ubuntu\ Mono\ 13,Monaco:h13
-
-	" Show NERDTree on startup
-	let g:nerdtree_tabs_open_on_console_startup=1
-
-	" Show line numbers, since copy & paste doesn't grab them
-	set number
+	set guifont=Ubuntu\ Mono\ 13,DejaVu\ Sans\ Mono\ 13,Monaco:h13
 endif
+
+if argc() == 0
+	" Show NERDTree on startup in each tab if we're started without
+	" any arguments
+	let g:nerdtree_tabs_open_on_console_startup=1
+endif
+
+" Show line numbers
+set number
 
 " Let pathogen manage our plugins
 execute pathogen#infect()
