@@ -43,10 +43,15 @@ autocmd BufRead,BufNewFile *.css set ts=2 sw=2 et sts=2
 autocmd BufRead,BufNewFile *.scss set ts=2 sw=2 et sts=2
 autocmd BufRead,BufNewFile *.less set ts=4 sw=4 et sts=4
 autocmd BufRead,BufNewFile *.html set ts=4 sw=4 et sts=4
+autocmd BufRead,BufNewFile *.mustache set ts=4 sw=4 et sts=4
 autocmd BufRead,BufNewFile *.tpl set ts=4 sw=4 et sts=4 ai
 autocmd BufRead,BufNewFile *.xml set ts=4 sw=4 et sts=4 ai
 autocmd BufRead,BufNewFile *.rb set ts=2 sw=2 et sts=2 ai
 autocmd BufRead,BufNewFile *.go set ts=4 sw=4 ai
+autocmd BufRead,BufNewFile *.yml set ts=2 sw=2 et sts=2 ai
+
+" check the file when we enter a buffer/window
+autocmd BufWinEnter * checktime
 
 " prefer pylint over flake8
 let g:syntastic_python_checkers = ['pylint']
