@@ -28,6 +28,9 @@ filetype indent on
 syntax enable
 set ai
 
+" show trailing whitespace
+match ErrorMsg '\s\+$'
+
 set statusline=%<%f\ %h%m%r%=%{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\"]\ \"}%k\ %-14.(%l,%c%V%)\ %P
 set laststatus=2
 
@@ -46,6 +49,7 @@ autocmd BufRead,BufNewFile *.html set ts=4 sw=4 et sts=4
 autocmd BufRead,BufNewFile *.mustache set ts=4 sw=4 et sts=4
 autocmd BufRead,BufNewFile *.tpl set ts=4 sw=4 et sts=4 ai
 autocmd BufRead,BufNewFile *.xml set ts=4 sw=4 et sts=4 ai
+autocmd BufRead,BufNewFile *.json set ts=4 sw=4 et sts=4 ai
 autocmd BufRead,BufNewFile *.rb set ts=2 sw=2 et sts=2 ai
 autocmd BufRead,BufNewFile *.go set ts=4 sw=4 ai
 autocmd BufRead,BufNewFile *.yml set ts=2 sw=2 et sts=2 ai
