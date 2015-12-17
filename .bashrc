@@ -32,6 +32,13 @@ export GIT_EXECUTABLE=$(which git 2>/dev/null)
 ###
 ### Custom Functions
 ###
+dmesg_with_human_timestamps () {
+    $(type -P dmesg) "$@" | perl -w -e 'use strict;
+        my ($uptime) = do { local @ARGV="/proc/uptime";<>}; ($uptime) = ($uptime =~ /^(\d+)\./);
+        foreach my $line (<>) {
+            printf( ($line=~/^\[\s*(\d+)\.\d+\](.+)/) ? ( "[%s]%s\n", scalar localtime(time - $uptime + $1), $2 ) : $line )
+        }'
+}
 randompass() {
         local MATRIX="HpZld&xsG47f0)W^9gNa!)LR(TQjh&UwnvP(tD5eAzr6k@E&y(umB3^@!K^cbOCV)SFJoYi2q@MIX8!1"
         local PASS=""
