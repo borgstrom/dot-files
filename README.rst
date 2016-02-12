@@ -9,14 +9,26 @@ These are my_ dot-files. I check them out and symlink them into place.
 * Write lots of Python
 * tmux
 
+How to use them
+---------------
+Fork them to your own repo.
+
+Check them out into a workspace.  I use `~/Projects`::
+
+    cd ~/Projects
+    git clone git@github.com:borgstrom/dot-files.git
+
+Install them::
+
+    cd dot-files
+    ./install-dot-files.sh
+
 Bash
 ----
 I tried ZSH & Prezto (`my fork of prezto`_) but since it means I have to install
 ZSH on every server I work on to get a consistent shell experience, I went back
 to bash 'cause it's everywhere and I didn't find zsh that much better an
 experience in the shell.
-
-Link the ``.bashrc`` file into your home dir.
 
 Prompt
 ~~~~~~
