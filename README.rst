@@ -1,5 +1,6 @@
 @borgstrom dot-files
 ====================
+
 These are my_ dot-files. I check them out and symlink them into place.
 
 * OS X work station
@@ -42,14 +43,18 @@ missing out.
 
 I use Pathogen_ for loading bundles and all of my bundles are stored as GIT
 submodules. Checkout this repository with the ``--recursive`` flag so they all
-get checked out as well.
+get checked out as well.  (If you use my bashrc you can simply run
+``update-dot-files``)
 
-Solarized Terminal w/Monaco 13pt
+Solarized Terminal w/Hack 13pt
 --------------------------------
-``Solarized Dark - Monaco 13.terminal`` is my customized version of the OS X
+``Solarized Dark - Hack.terminal`` is my customized version of the OS X
 `solarized terminal`_ files by Tomislav Filipčić. The only change is that the
-font size has been set to 13pt from 11pt because I have a huge monitor and
-don't want to squint when I work in the terminal.
+font has been changed to the open source `hack font`_ and the size has been set
+to 13pt from 11pt because I have a huge monitor and don't want to squint when I
+work in the terminal.
+
+Make sure you grab and install the `hack font`_ before using this.
 
 SSH
 ---
@@ -68,3 +73,4 @@ for agent forwarding.
 .. _my fork of prezto: https://github.com/borgstrom/prezto
 .. _Pathogen: https://github.com/tpope/vim-pathogen
 .. _solarized terminal: https://github.com/tomislav/osx-terminal.app-colors-solarized
+.. _hack font: http://sourcefoundry.org/hack/
