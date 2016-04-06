@@ -5,7 +5,7 @@
 
 DOTFILES=$( cd $(dirname $0) ; pwd -P )
 
-for ent in .bashrc .screenrc .vim .vimrc .tmux.conf; do
+for ent in .bash_profile .bashrc .screenrc .vim .vimrc .tmux.conf; do
 	if [ -e ~/$ent ]; then
 		if [ ! -h ~/$ent ]; then
 			mv ~/$ent ~/$ent.before-dot-files

@@ -1,22 +1,14 @@
-# return on non-interactive shells - don't put anything that might produce output above here...
-[[ $- != *i* ]] && return
-
 ###
 ### Evan Borgstrom's .bashrc file
 ### Latest at https://github.com/borgstrom/dot-files
 ###
 
+# return on non-interactive shells - don't put anything that might produce output above here...
+[[ $- != *i* ]] && return
+
 ###
 ### Global Configuration
 ###
-
-# pull in global profile
-if [ -f /etc/profile ]; then
-	. /etc/profile
-fi
-
-# a nice liberal path with our own local items first
-export PATH="$HOME/bin:$HOME/local/bin:$HOME/local/sbin:$PATH:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin"
 
 # our dotfiles config
 if [ -h ~/.bashrc ]; then
@@ -246,9 +238,6 @@ set -o ignoreeof        # dont log out on eof (^D)
 # set our umask
 umask 022
 
-# screen should be xterm
-[ $TERM == "screen" ] && export TERM=xterm
-
 # find out some info about our term capabilities
 term_colour=0
 case $TERM in
@@ -354,4 +343,3 @@ login-info
 
 # os x ssh agent check
 osx-ssh-agent-timeout
-
