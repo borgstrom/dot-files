@@ -5,6 +5,17 @@
 
 DOTFILES=$( cd $(dirname $0) ; pwd -P )
 
+cd $DOTFILES
+
+# update our submodules
+git submodule init
+git submodule update --recursive
+cd .vim/bundle/jedi-vim/
+git submodule init
+git submodule update --recursive
+
+cd $DOTFILES
+
 for ent in .bash_profile .bashrc .screenrc .vim .vimrc .tmux.conf; do
 	if [ -e ~/$ent ]; then
 		if [ ! -h ~/$ent ]; then
