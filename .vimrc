@@ -36,23 +36,16 @@ set laststatus=2
 
 set modeline modelines=2
 
+autocmd BufRead,BufNewFile BUCK set ft=python
 autocmd BufRead,BufNewFile *.pp set ft=puppet
-autocmd BufRead,BufNewFile *.c set ts=4 sw=4 et sts=4
-autocmd BufRead,BufNewFile *.h set ts=4 sw=4 et sts=4
-autocmd BufRead,BufNewFile *.m set ts=4 sw=4 et sts=4
-autocmd BufRead,BufNewFile *.py set ts=4 sw=4 et sts=4
-autocmd BufRead,BufNewFile *.js set ts=4 sw=4 et sts=4
-autocmd BufRead,BufNewFile *.css set ts=2 sw=2 et sts=2
-autocmd BufRead,BufNewFile *.scss set ts=2 sw=2 et sts=2
-autocmd BufRead,BufNewFile *.less set ts=4 sw=4 et sts=4
-autocmd BufRead,BufNewFile *.html set ts=4 sw=4 et sts=4
-autocmd BufRead,BufNewFile *.mustache set ts=4 sw=4 et sts=4
-autocmd BufRead,BufNewFile *.tpl set ts=4 sw=4 et sts=4 ai
-autocmd BufRead,BufNewFile *.xml set ts=4 sw=4 et sts=4 ai
-autocmd BufRead,BufNewFile *.json set ts=4 sw=4 et sts=4 ai
-autocmd BufRead,BufNewFile *.rb set ts=2 sw=2 et sts=2 ai
-autocmd BufRead,BufNewFile *.go set ts=4 sw=4 ai
-autocmd BufRead,BufNewFile *.yml set ts=2 sw=2 et sts=2 ai
+
+autocmd FileType c,cpp set ts=4 sw=4 et sts=4
+autocmd FileType html,js,css,less,scss,mustache,tpl,xml set ts=4 sw=4 et sts=4
+autocmd FileType java set ts=4 sw=4 et sts=4
+autocmd FileType json,yaml set ts=2 sw=2 et sts=2
+autocmd FileType python set ts=4 sw=4 et sts=4
+autocmd FileType go set ts=4 sw=4 ai
+autocmd FileType terraform set ts=4 sw=4 et sts=4 ai
 
 " check the file when we enter a buffer/window
 autocmd BufWinEnter * checktime
@@ -61,7 +54,7 @@ autocmd BufWinEnter * checktime
 let g:syntastic_python_checkers = ['pylint']
 
 " source our global vim overrides if they exist
-if filereadable(glob("~/.vimrc.local")) 
+if filereadable(glob("~/.vimrc.local"))
 	source ~/.vimrc.local
 endif
 
