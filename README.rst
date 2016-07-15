@@ -64,10 +64,11 @@ predictable location so that screen can re-use our agent authentication.
 Link it into your ``.ssh`` dir. This only needs to be done on machines that
 you ssh *into*, it doesn't need to be done on your workstation.
 
-Screen
-------
-My screen config sets up a hardstatus and points to a specific SSH auth sock
-for agent forwarding.
+Tmux
+----
+I couldn't get used to C-b as the modifier, so I set it back to C-a so my screen
+muscle memory is happy.  This also sets up status lines that match the rest of
+my shell.
 
 .. _my: http://borgstrom.ca/
 .. _my fork of prezto: https://github.com/borgstrom/prezto
