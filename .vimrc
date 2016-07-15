@@ -43,8 +43,9 @@ autocmd FileType c,cpp set ts=4 sw=4 et sts=4
 autocmd FileType html,js,css,less,scss,mustache,tpl,xml set ts=4 sw=4 et sts=4
 autocmd FileType java set ts=4 sw=4 et sts=4
 autocmd FileType json,yaml set ts=2 sw=2 et sts=2
-autocmd FileType python set ts=4 sw=4 et sts=4
+autocmd FileType python set ts=4 sw=4 et sts=4 tw=120 wrap
 autocmd FileType go set ts=4 sw=4 ai
+autocmd FileType rst set ts=4 sw=4 et sts=4 spell tw=120 wrap
 autocmd FileType terraform set ts=4 sw=4 et sts=4 ai
 
 " check the file when we enter a buffer/window
@@ -62,3 +63,12 @@ endif
 if filereadable('.vimrc.local')
 	source .vimrc.local
 endif
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0

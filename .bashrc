@@ -169,44 +169,6 @@ update-dot-files() {
 	rm -f /tmp/.check-dot-files.${USER}
 }
 
-osx-ssh-agent-timeout() {
-	# on os x we want ssh-agent to timeout our keys once an hour
-	# this gives us a nice balance of security and convenience
-	PLIST="/System/Library/LaunchAgents/org.openbsd.ssh-agent.plist"
-	LOCK="/tmp/.osx-ssh-agent-timeout-check"
-	SKIP="~/.osx-ssh-agent-timeout-skip"
-
-	# if our plist doesn't exist, or our lock or skip does exist return
-	[ ! -f "$PLIST" ] || [ -f "$LOCK" ] || [ -f "$SKIP" ] && return
-
-	ARGS=`defaults read $PLIST ProgramArguments`
-	if [ -z "`echo $ARGS | grep -- '-t'`" ]; then
-		echo ""
-		echo "*** OS X - SSH AGENT TIMEOUT ***"
-		echo
-		echo "Your machine is set to run ssh-agent without a timeout."
-		echo "Let's edit the ssh-agent launchctl plist file to add a"
-		echo "timeout of one hour."
-		echo
-		echo "You will now be prompted for your password since sudo"
-		echo "needs to be used to update this setting."
-		echo
-		echo "If you don't want to do this just hit CTRL+C when prompted"
-		echo "for your password, and then run:"
-		echo "touch $SKIP"
-		echo
-
-		sudo defaults write $PLIST ProgramArguments '("/usr/bin/ssh-agent", "-l", "-t", "3600")'
-
-		# os x oddity; by default we're able to read the file without
-		# being root but as soon as we write to the file we need to
-		# change the mode because it sets 0600
-		sudo chmod 0644 $PLIST
-	fi
-
-	touch $LOCK
-}
-
 ###
 ### Shell customization
 ###
@@ -298,23 +260,7 @@ export PS1="\n${PROMPT1}\n#\! ${user_colour}❯❯❯${NC} "
 # use the bash-completion package if we have it
 [ -f /etc/profile.d/bash-completion ] && source /etc/profile.d/bash-completion
 [ -f /etc/bash_completion ] && source /etc/bash_completion
-
-complete 2>&1 >/dev/null
-if [ $? = 0 ]; then
-        # completion entries
-        complete -A alias       alias unalias
-        complete -A command     which
-        complete -A export      export printenv
-        complete -A hostname    ssh telnet ftp ncftp ping dig nmap
-        complete -A helptopic   help
-        complete -A job -P '%'  fg jobs
-        complete -A setopt      set
-        complete -A shopt       shopt
-        complete -A signal      kill killall
-        complete -A user        su userdel passwd
-        complete -A group       groupdel groupmod newgrp
-        complete -A directory   cd rmdir
-fi
+[ -x "$(which brew)" ] && [ -f $(brew --prefix)/etc/bash_completion ] && source $(brew --prefix)/etc/bash_completion
 
 # command aliases - be paranoid & fix typos
 alias rm='rm -i'
@@ -329,7 +275,16 @@ alias grpe='grep'
 alias gpre='grep'
 alias whcih='which'
 alias snv='svn'
-alias poweroff='echo "Please run /sbin/poweroff to turn off the system"'
+
+# git shortcuts
+alias gcv='git commit -v'
+alias gco='git checkout'
+alias gb='git branch'
+alias gpu='git push origin -u HEAD'
+alias gpfu='git push origin -f -u HEAD'
+alias gfo='git fetch origin'
+alias grom='git rebase origin/master'
+alias grod='git rebase origin/develop'
 
 # only run pip with virtualenv and use the active env
 export PIP_REQUIRE_VIRTUALENV=true
@@ -340,6 +295,3 @@ test -r ~/.bash_custom && . ~/.bash_custom
 
 # login info
 login-info
-
-# os x ssh agent check
-osx-ssh-agent-timeout
