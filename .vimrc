@@ -38,6 +38,7 @@ set modeline modelines=2
 
 autocmd BufRead,BufNewFile BUCK set ft=python
 autocmd BufRead,BufNewFile *.pp set ft=puppet
+autocmd BufRead,BufNewFile *.tf set ft=terraform
 
 autocmd FileType c,cpp set ts=4 sw=4 et sts=4
 autocmd FileType html,js,css,less,scss,mustache,tpl,xml set ts=4 sw=4 et sts=4
