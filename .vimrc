@@ -13,6 +13,10 @@ if argc() == 0
 	let g:nerdtree_tabs_open_on_console_startup=1
 endif
 
+" ensure we can backspace over all situations
+" this was the default in vim<8, but changed when I upgraded to 8
+set backspace=indent,eol,start
+
 " Show line numbers
 set number
 
