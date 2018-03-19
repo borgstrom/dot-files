@@ -10,22 +10,11 @@ let g:pathogen_disabled = []
 " Let pathogen manage our plugins
 execute pathogen#infect()
 
-" Show NERDTree in each tab
-let g:nerdtree_tabs_open_on_console_startup=1
+" Map nerd tree to leader+q
+map <Leader>q :NERDTreeTabsToggle<CR>
 
 " We want to see hidden files
 let NERDTreeShowHidden=1
-
-" When entering a new buffer in a window (that is not empty), use NERDTreeFind
-" to sync the tree to the location of the buffer, then use wincmd + p to focus
-" back on the buffer that was just opened
-autocmd BufWinEnter * if line('$') != 1 && getline(1) != '' | NERDTreeFind | wincmd p | endif
-
-" When starting vim with a file (i.e. vim filename.txt VS vim) then we want to
-" send wincmd + w so that we focus in the new buffer.  This is required
-" because the BufWinEnter above uses wincmd + p to push focus back but at
-" startup we don't have a previous buffer
-autocmd VimEnter * if line('$') != 1 && getline(1) != '' | wincmd w | endif
 
 " ensure we can backspace over all situations
 set backspace=indent,eol,start
@@ -53,7 +42,7 @@ set modeline modelines=2
 autocmd BufRead,BufNewFile *.tf set ft=terraform
 
 autocmd FileType c,cpp set ts=4 sw=4 et sts=4
-autocmd FileType html,js,css,less,scss,mustache,tpl,xml set ts=4 sw=4 et sts=4
+autocmd FileType html,css,less,scss,mustache,tpl,xml set ts=4 sw=4 et sts=4
 autocmd FileType java,groovy set ts=4 sw=4 et sts=4
 autocmd FileType yaml set ts=4 sw=4 et sts=4
 autocmd FileType json set ts=2 sw=2 et sts=2
@@ -63,6 +52,7 @@ autocmd FileType lua set ts=4 sw=4 et sts=4 tw=120 wrap
 autocmd FileType go set ts=4 sw=4 ai
 autocmd FileType rst set ts=4 sw=4 et sts=4 spell tw=120 wrap
 autocmd FileType terraform set ts=4 sw=4 et sts=4 ai
+autocmd FileType javascript,js set ts=2 sw=2 et sts=2 ai
 
 " check the file when we enter a buffer/window
 autocmd BufWinEnter * checktime
@@ -93,3 +83,9 @@ let g:CommandTSmartCase = 1
 if filereadable('.vimrc.local')
 	source .vimrc.local
 endif
+
+let g:prettier#config#parser = 'babylon'
+
+" Setup ack.vim to use ag for searching
+let g:ackprg = 'ag --vimgrep --smart-case'
+nnoremap <Leader>a :Ack!<Space>

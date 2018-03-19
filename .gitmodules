@@ -31,3 +31,18 @@
 [submodule ".vim/bundle/vim-terraform"]
 	path = .vim/bundle/vim-terraform
 	url = https://github.com/hashivim/vim-terraform.git
+[submodule ".vim/bundle/vim-prettier"]
+	path = .vim/bundle/vim-prettier
+	url = https://github.com/prettier/vim-prettier
+[submodule ".vim/bundle/kotlin-vim"]
+	path = .vim/bundle/kotlin-vim
+	url = https://github.com/udalov/kotlin-vim
+[submodule ".vim/bundle/vim-isort"]
+	path = .vim/bundle/vim-isort
+	url = git@github.com:fisadev/vim-isort.git
+[submodule ".vim/bundle/ack.vim"]
+	path = .vim/bundle/ack.vim
+	url = https://github.com/mileszs/ack.vim
+[submodule ".vim/bundle/command-t"]
+	path = .vim/bundle/command-t
+	url = git@github.com:wincent/command-t.git
