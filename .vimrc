@@ -16,6 +16,12 @@ map <Leader>q :NERDTreeTabsToggle<CR>
 " We want to see hidden files
 let NERDTreeShowHidden=1
 
+" NERDTree setting defaults to work around http://github.com/scrooloose/nerdtree/issues/489
+let g:NERDTreeDirArrows = 1
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+let g:NERDTreeGlyphReadOnly = "RO"
+
 " ensure we can backspace over all situations
 set backspace=indent,eol,start
 
@@ -75,7 +81,7 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 " configure command-T
-let g:CommandTFileScanner = "find"
+let g:CommandTFileScanner = "git"
 let g:CommandTAlwaysShowDotFiles = 1
 let g:CommandTSmartCase = 1
 
@@ -87,5 +93,7 @@ endif
 let g:prettier#config#parser = 'babylon'
 
 " Setup ack.vim to use ag for searching
+" Big A grabs the current word under the cursor
 let g:ackprg = 'ag --vimgrep --smart-case'
 nnoremap <Leader>a :Ack!<Space>
+nnoremap <Leader>A :Ack!<Space><C-r><C-w>
