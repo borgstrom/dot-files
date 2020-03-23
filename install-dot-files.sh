@@ -31,5 +31,5 @@ done
 ln -sf $DOTFILES/.ssh/rc ~/.ssh/rc
 
 # special case nvim config
-[ ! -d ~/.config/nvim ] && mkdir ~/.config/nvim
+[ ! -d ~/.config/nvim ] && mkdir -p ~/.config/nvim
 ln -sf $DOTFILES/nvim-init.vim ~/.config/nvim/init.vim
