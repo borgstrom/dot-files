@@ -7,7 +7,6 @@ set encoding=utf-8
 " Python support
 let g:python_host_prog = '/home/evan/.virtualenvs/neovim-py2/bin/python'
 let g:python3_host_prog = '/home/evan/.virtualenvs/neovim-py3/bin/python'
-let g:black_virtualenv = '/home/evan/.virtualenvs/neovim-py3'
 
 " Plugins
 call plug#begin()
