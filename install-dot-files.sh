@@ -29,3 +29,7 @@ done
 # special case .ssh/rc
 [ ! -d ~/.ssh ] && mkdir ~/.ssh && chmod 0700 ~/.ssh
 ln -sf $DOTFILES/.ssh/rc ~/.ssh/rc
+
+# special case nvim config
+[ ! -d ~/.config/nvim ] && mkdir ~/.config/nvim
+ln -sf $DOTFILES/nvim-init.vim ~/.config/nvim/init.vim
