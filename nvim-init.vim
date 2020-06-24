@@ -20,15 +20,17 @@ Plug 'iCyMind/NeoSolarized'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+Plug 'fatih/vim-go'
+
 Plug 'sheerun/vim-polyglot'
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'neomake/neomake'
 
 Plug 'psf/black', { 'tag': '19.10b0', 'do': ':BlackUpgrade', 'for': 'python' }
+Plug 'darrikonn/vim-isort', { 'for': 'python' }
 Plug 'deoplete-plugins/deoplete-jedi', { 'for': 'python' }
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }
-
-Plug 'fatih/vim-go', { 'tag': '*', 'for': 'go' }
 call plug#end()
 
 " Airline
@@ -44,6 +46,13 @@ let g:deoplete#enable_at_startup = 1
 
 " Set omni mode for go
 call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
+
+" neomake
+call neomake#configure#automake('nrw', 500)
+let g:neomake_python_enabled_makers = ['flake8', 'mypy']
+let g:neomake_go_enabled_makers = ['go', 'golangci_lint', 'golint']
+" let g:neomake_go_golangci_lint_args = ['run', '--fast', '--out-format=line-number', '--print-issued-lines=false']
+" this is in setup.cfg now - let g:neomake_python_mypy_args = [ '--strict', '--ignore-missing-imports', '--allow-untyped-decorators' ]
 
 " Map fzf to leader+f
 map <Leader>f :FZF<CR>
@@ -86,5 +95,19 @@ nnoremap <C-P> :bprev<CR>
 " check the file when we enter a buffer/window
 autocmd BufWinEnter * checktime
 
-" Blackify python files on write
-autocmd BufWritePre *.py execute ':Black'
+" Blackify and isort python files on write
+
+let g:applyPythonStyle = 1
+nnoremap <F9> :let g:applyPythonStyle = !get(g:, 'applyPythonStyle', 1)<cr>
+autocmd BufWritePre *.py if get(g:, 'applyPythonStyle', 1) | execute ':Black' | execute ':Isort' | endif
+
+" Go
+autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+let g:go_fmt_command = "goimports"
+let g:go_metalinter_autosave = 0
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
