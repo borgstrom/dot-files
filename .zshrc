@@ -17,7 +17,7 @@ source ${DOTFILES}/powerlevel10k/powerlevel10k.zsh-theme
 [ -x /opt/homebrew/bin/brew ] && eval $(/opt/homebrew/bin/brew shellenv)
 
 # pyenv
-[ -x $(which pyenv) ] && eval "$(pyenv init -)"
+[ ! -z "$(which pyenv)" ] && eval "$(pyenv init -)"
 
 # command aliases - be paranoid & fix typos
 alias rm='rm -i'
