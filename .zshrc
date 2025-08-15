@@ -2,6 +2,8 @@ export DOTFILES=$(cd $(dirname $(readlink ~/.zshrc)) ; pwd -P)
 
 export PATH="$HOME/bin:/usr/local/bin:$PATH"
 
+export EDITOR=vim
+
 [[ -f /usr/facebook/ops/rc/master.zshrc ]] && source /usr/facebook/ops/rc/master.zshrc
 [[ -f /usr/share/scm/scm-prompt.sh ]] && source /usr/share/scm/scm-prompt.sh
 
