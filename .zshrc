@@ -90,6 +90,11 @@ update-dot-files() {
 	rm -f /tmp/.check-dot-files.${USER}
 }
 
+function set_win_title(){
+    echo -ne "\033]0; $USER@$HOSTNAME $PWD \007"
+}
+starship_precmd_user_func="set_win_title"
+
 check-dot-files
 
 export STARSHIP_CONFIG=$HOME/.starship.toml
