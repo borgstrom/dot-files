@@ -1,17 +1,9 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 export DOTFILES=$(cd $(dirname $(readlink ~/.zshrc)) ; pwd -P)
 
-# Load powerlevel10k
-source ${DOTFILES}/powerlevel10k/powerlevel10k.zsh-theme
+export PATH="$HOME/bin:/usr/local/bin:$PATH"
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ -f /usr/facebook/ops/rc/master.zshrc ]] && source /usr/facebook/ops/rc/master.zshrc
+[[ -f /usr/share/scm/scm-prompt.sh ]] && source /usr/share/scm/scm-prompt.sh
 
 # Homebrew
 [ -x /opt/homebrew/bin/brew ] && eval $(/opt/homebrew/bin/brew shellenv)
@@ -94,3 +86,7 @@ update-dot-files() {
 }
 
 check-dot-files
+
+export STARSHIP_CONFIG=$HOME/.starship.toml
+STARSHIP=$(which starship)
+[[ -x "$STARSHIP" ]] && eval "$(starship init zsh)"

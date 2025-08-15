@@ -6,4 +6,4 @@ Terminal with the [Meslo Nerd Font](https://github.com/romkatv/powerlevel10k#man
 
 ## Shell
 
-zsh with powerlevel10k
+zsh with starship
