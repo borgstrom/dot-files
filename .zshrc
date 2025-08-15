@@ -5,6 +5,9 @@ export PATH="$HOME/bin:/usr/local/bin:$PATH"
 [[ -f /usr/facebook/ops/rc/master.zshrc ]] && source /usr/facebook/ops/rc/master.zshrc
 [[ -f /usr/share/scm/scm-prompt.sh ]] && source /usr/share/scm/scm-prompt.sh
 
+# If we have fwdproxy-config, make curl use it
+[[ -x $(which fwdproxy-config) ]] && alias curl="curl $(fwdproxy-config curl)"
+
 # Homebrew
 [ -x /opt/homebrew/bin/brew ] && eval $(/opt/homebrew/bin/brew shellenv)
 

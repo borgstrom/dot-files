@@ -15,4 +15,4 @@ done
 [[ -x $(which fwdproxy-config) ]] && FWDPROXY_CURL=$(fwdproxy-config curl)
 
 [[ ! -d $HOME/bin ]] && mkdir $HOME/bin
-BIN_DIR=$HOME/bin curl $FWDPROXY_CURL -sS https://starship.rs/install.sh | sh
+BIN_DIR=$HOME/bin curl $FWDPROXY_CURL -sS https://starship.rs/install.sh | BIN_DIR=$HOME/bin sh
