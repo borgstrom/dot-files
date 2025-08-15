@@ -3,6 +3,7 @@
 
 add_newline = true
 
+format = "$time$os$all"
 
 [aws]
 symbol = "  "
@@ -194,6 +195,10 @@ symbol = " "
 
 [swift]
 symbol = " "
+
+[time]
+disabled = false
+format = "$time "
 
 [zig]
 symbol = " "
